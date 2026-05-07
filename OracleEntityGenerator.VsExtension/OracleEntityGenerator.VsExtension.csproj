@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\OracleEntityGenerator.CodeGeneration\OracleEntityGenerator.CodeGeneration.csproj" />
+    <ProjectReference Include="..\OracleEntityGenerator.Oracle\OracleEntityGenerator.Oracle.csproj" />
+    <ProjectReference Include="..\OracleEntityGenerator.Core\OracleEntityGenerator.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\OracleEntityGenerator.Core\Compatibility\Net472CompilerPolyfills.cs" Link="Compatibility\Net472CompilerPolyfills.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="17.14.40264" ExcludeAssets="runtime" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>14</LangVersion>
+  </PropertyGroup>
+
+</Project>

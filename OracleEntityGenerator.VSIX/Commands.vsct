@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
+
+  <Commands package="guidOracleEntityGeneratorPackage">
+    <Groups>
+      <Group guid="guidOracleEntityGeneratorCommandSet" id="OracleEntityGeneratorGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidOracleEntityGeneratorCommandSet" id="OpenGeneratorToolWindow" priority="0x0100" type="Button">
+        <Parent guid="guidOracleEntityGeneratorCommandSet" id="OracleEntityGeneratorGroup" />
+        <Strings>
+          <ButtonText>Oracle Entity Generator</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="guidOracleEntityGeneratorPackage" value="{1f2bc3b0-8bf2-49ac-9cd8-649efbde5f23}" />
+    <GuidSymbol name="guidOracleEntityGeneratorCommandSet" value="{f8c89e6f-4923-4605-8938-e26d5a03e858}">
+      <IDSymbol name="OracleEntityGeneratorGroup" value="0x1020" />
+      <IDSymbol name="OpenGeneratorToolWindow" value="0x0100" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

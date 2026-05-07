@@ -1,0 +1,15 @@
+﻿<Window x:Class="OracleEntityGenerator.VsExtension.Playground.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:OracleEntityGenerator.VsExtension.Views;assembly=OracleEntityGenerator.VsExtension"
+        mc:Ignorable="d"
+        Title="Oracle Entity Generator UI Playground"
+        Height="860"
+        Width="1180"
+        MinHeight="720"
+        MinWidth="980"
+        WindowStartupLocation="CenterScreen">
+    <views:GeneratorToolWindowControl />
+</Window>

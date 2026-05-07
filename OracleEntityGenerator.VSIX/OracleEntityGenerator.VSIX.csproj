@@ -1,0 +1,81 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>14</LangVersion>
+
+    <!-- VSIX settings -->
+    <VSSDKBuildToolsAutoSetup>true</VSSDKBuildToolsAutoSetup>
+    <UseWPF>true</UseWPF>
+    <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>true</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectCapability Include="CreateVsixContainer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="18.5.40034" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OracleEntityGenerator.VsExtension\OracleEntityGenerator.VsExtension.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Design" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <VSCTCompile Include="Commands.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\Microsoft.Bcl.AsyncInterfaces.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\System.Buffers.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\System.Diagnostics.DiagnosticSource.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\System.Memory.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\System.Numerics.Vectors.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\System.Runtime.CompilerServices.Unsafe.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\System.Text.Json.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\System.Threading.Tasks.Extensions.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+    <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\System.ValueTuple.dll">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <VSIXSubPath></VSIXSubPath>
+    </Content>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,11 @@
+<Solution>
+  <Project Path="OracleEntityGenerator.CodeGeneration/OracleEntityGenerator.CodeGeneration.csproj" />
+  <Project Path="OracleEntityGenerator.Core/OracleEntityGenerator.Core.csproj" />
+  <Project Path="OracleEntityGenerator.Oracle/OracleEntityGenerator.Oracle.csproj" />
+  <Project Path="OracleEntityGenerator.Tests/OracleEntityGenerator.Tests.csproj" />
+  <Project Path="OracleEntityGenerator.VsExtension.Playground/OracleEntityGenerator.VsExtension.Playground.csproj" />
+  <Project Path="OracleEntityGenerator.VsExtension/OracleEntityGenerator.VsExtension.csproj" />
+  <Project Path="OracleEntityGenerator.VSIX/OracleEntityGenerator.VSIX.csproj" Id="e4f07f26-5fcd-424f-b4c0-10b55d9c36e5">
+    <Deploy />
+  </Project>
+</Solution>
