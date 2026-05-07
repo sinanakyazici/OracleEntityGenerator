@@ -40,6 +40,23 @@
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxBorderBrushKey}}" />
         </Style>
 
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxItemTextBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxPopupBackgroundGradientBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxPopupBorderBrushKey}}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxItemMouseOverTextBrushKey}}" />
+                    <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxItemMouseOverBackgroundBrushKey}}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxItemMouseOverBorderBrushKey}}" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxMouseDownTextBrushKey}}" />
+                    <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxSelectionBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <Style TargetType="{x:Type Button}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ButtonTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.SystemButtonFaceBrushKey}}" />
