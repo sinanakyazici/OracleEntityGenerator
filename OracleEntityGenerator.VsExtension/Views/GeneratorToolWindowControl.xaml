@@ -174,9 +174,14 @@
                                Text="Tables"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center" />
-                    <TextBox Width="260"
-                             HorizontalAlignment="Right"
+                    <TextBox DockPanel.Dock="Right"
+                             Width="260"
                              Text="{Binding TableSearchText, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock DockPanel.Dock="Right"
+                               Margin="0,0,8,0"
+                               Text="Filter"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" />
                 </DockPanel>
 
                 <DataGrid Grid.Row="1"
@@ -184,9 +189,15 @@
                           CanUserAddRows="False"
                           ItemsSource="{Binding VisibleTables}">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Header=""
-                                                Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
-                                                Width="40" />
+                        <DataGridTemplateColumn Header="" Width="40">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Schema"
                                             Binding="{Binding SchemaName, Mode=OneWay}"
                                             IsReadOnly="True"
