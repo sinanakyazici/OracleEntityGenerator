@@ -143,7 +143,7 @@
             </StackPanel>
 
             <StackPanel Grid.Column="3" VerticalAlignment="Bottom" MinWidth="130">
-                <Button Content="Test Connection"
+                <Button Content="Connect Database"
                         Command="{Binding TestConnectionCommand}" />
                 <Button Margin="0,8,0,0"
                         Content="Load Schemas"
@@ -170,18 +170,14 @@
                 </Grid.RowDefinitions>
 
                 <DockPanel Grid.Row="0" Margin="0,0,0,8">
-                    <TextBlock DockPanel.Dock="Left"
-                               Text="Tables"
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center" />
                     <TextBox DockPanel.Dock="Right"
                              Width="260"
                              Text="{Binding TableSearchText, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock DockPanel.Dock="Right"
                                Margin="0,0,8,0"
-                               Text="Filter"
+                               Text="Tables Filter: "
                                FontWeight="SemiBold"
-                               VerticalAlignment="Center" />
+                               VerticalAlignment="Center" TextAlignment="Right" />
                 </DockPanel>
 
                 <DataGrid Grid.Row="1"
