@@ -4,6 +4,10 @@
     <ProjectReference Include="..\OracleEntityGenerator.VsExtension\OracleEntityGenerator.VsExtension.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0" Version="17.14.40264" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net472</TargetFramework>
