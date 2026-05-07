@@ -231,12 +231,13 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
 
     private static void WriteFileHeader(CodeWriter writer, string? fileHeader)
     {
-        if (string.IsNullOrWhiteSpace(fileHeader))
+        var header = fileHeader;
+        if (header is null || header.Trim().Length == 0)
         {
             return;
         }
 
-        foreach (var line in fileHeader.Replace("\r\n", "\n").Split('\n'))
+        foreach (var line in header.Replace("\r\n", "\n").Split('\n'))
         {
             writer.WriteLine(line);
         }

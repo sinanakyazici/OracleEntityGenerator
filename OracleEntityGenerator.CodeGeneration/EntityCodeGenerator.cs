@@ -158,12 +158,13 @@ public sealed class EntityCodeGenerator : IEntityCodeGenerator
 
     private static void WriteFileHeader(CodeWriter writer, string? fileHeader)
     {
-        if (string.IsNullOrWhiteSpace(fileHeader))
+        var header = fileHeader;
+        if (header is null || header.Trim().Length == 0)
         {
             return;
         }
 
-        foreach (var line in fileHeader.Replace("\r\n", "\n").Split('\n'))
+        foreach (var line in header.Replace("\r\n", "\n").Split('\n'))
         {
             writer.WriteLine(line);
         }
@@ -194,13 +195,19 @@ public sealed class EntityCodeGenerator : IEntityCodeGenerator
         string? comment,
         bool enabled)
     {
-        if (!enabled || string.IsNullOrWhiteSpace(comment))
+        if (!enabled || comment is null)
+        {
+            return;
+        }
+
+        var trimmedComment = comment.Trim();
+        if (trimmedComment.Length == 0)
         {
             return;
         }
 
         writer.WriteLine("/// <summary>");
-        writer.WriteLine($"/// {SecurityElement.Escape(comment.Trim())}");
+        writer.WriteLine($"/// {SecurityElement.Escape(trimmedComment) ?? string.Empty}");
         writer.WriteLine("/// </summary>");
     }
 

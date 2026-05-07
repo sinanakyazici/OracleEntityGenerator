@@ -261,7 +261,8 @@ public sealed class GeneratorToolWindowViewModel : ObservableObject
 
     private async Task LoadTablesAsync(CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(SelectedSchemaName))
+        var selectedSchemaName = SelectedSchemaName;
+        if (selectedSchemaName is null || selectedSchemaName.Trim().Length == 0)
         {
             return;
         }
@@ -271,7 +272,7 @@ public sealed class GeneratorToolWindowViewModel : ObservableObject
             Tables.Clear();
             var tables = await _metadataReader.GetTablesAsync(
                 CreateConnectionOptions(),
-                SelectedSchemaName,
+                selectedSchemaName,
                 CreateReaderOptions(),
                 cancellationToken);
 
@@ -281,7 +282,7 @@ public sealed class GeneratorToolWindowViewModel : ObservableObject
             }
 
             OnPropertyChanged(nameof(VisibleTables));
-            AppendLog($"Loaded {Tables.Count} table(s) from schema {SelectedSchemaName}.");
+            AppendLog($"Loaded {Tables.Count} table(s) from schema {selectedSchemaName}.");
         });
     }
 
