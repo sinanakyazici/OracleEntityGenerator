@@ -1,9 +1,15 @@
 name: Release
 
 on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -12,9 +18,17 @@ jobs:
   release:
     name: Build and publish GitHub release
     runs-on: windows-latest
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
 
     steps:
-      - name: Checkout
+      - name: Checkout CI commit
+        if: github.event_name == 'workflow_run'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Checkout current ref
+        if: github.event_name != 'workflow_run'
         uses: actions/checkout@v6
 
       - name: Setup .NET 10 preview
@@ -29,8 +43,32 @@ jobs:
       - name: Build VSIX
         run: dotnet build OracleEntityGenerator.VSIX/OracleEntityGenerator.VSIX.csproj --configuration Release --no-restore -warnaserror
 
-      - name: Create GitHub release
+      - name: Move latest tag
+        if: github.event_name != 'push'
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f latest
+          git push origin refs/tags/latest --force
+
+      - name: Create or update latest release
+        if: github.event_name != 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest VSIX
+          body: |
+            Automated VSIX build from the latest successful CI run on `main`.
+          files: OracleEntityGenerator.VSIX/bin/Release/net472/OracleEntityGenerator.VSIX.vsix
+          prerelease: false
+          make_latest: true
+          overwrite_files: true
+
+      - name: Create versioned release
+        if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
           files: OracleEntityGenerator.VSIX/bin/Release/net472/OracleEntityGenerator.VSIX.vsix
           generate_release_notes: true
+          overwrite_files: true
