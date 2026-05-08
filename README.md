@@ -186,7 +186,7 @@ Please report security issues using the guidance in [SECURITY.md](SECURITY.md).
 
 CI builds, tests, and packages the VSIX on every push to `main`.
 
-After CI succeeds, the release workflow reads the VSIX manifest version and creates or updates a GitHub release such as:
+After CI succeeds, the release workflow downloads the VSIX artifact produced by CI, reads the VSIX manifest version, and creates or updates a GitHub release such as:
 
 ```text
 Oracle Entity Generator v1.0.6
