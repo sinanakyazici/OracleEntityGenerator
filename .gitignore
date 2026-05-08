@@ -16,6 +16,7 @@ obj/
 # Local/generated output
 manual-output/
 OracleEntityGenerator.Tests/output/
+OracleEntityGenerator.Tests/TestResults/
 
 # Logs and temporary files
 *.log
