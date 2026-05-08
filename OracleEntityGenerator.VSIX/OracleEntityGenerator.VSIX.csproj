@@ -41,6 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Icon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="..\OracleEntityGenerator.VsExtension\bin\$(Configuration)\net472\Microsoft.Bcl.AsyncInterfaces.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
       <VSIXSubPath></VSIXSubPath>

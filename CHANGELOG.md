@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The project follows version numbers from the VSIX manifest.
 
+## 1.0.7
+
+- Added a custom Marketplace and VSIX icon.
+
 ## 1.0.6
 
 - Added Visual Studio tool window integration.

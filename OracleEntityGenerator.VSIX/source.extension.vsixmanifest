@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="OracleEntityGenerator.VSIX.b6a68e1e-9763-4774-8abe-3247b4f3c701" Version="1.0.6" Language="en-US" Publisher="Sinan AKYAZICI" />
+    <Identity Id="OracleEntityGenerator.VSIX.b6a68e1e-9763-4774-8abe-3247b4f3c701" Version="1.0.7" Language="en-US" Publisher="Sinan AKYAZICI" />
     <DisplayName>Oracle Entity Generator</DisplayName>
     <Description>Generates EF Core entity and configuration classes from Oracle Database metadata.</Description>
+    <Icon>Resources/Icon.png</Icon>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, )">
