@@ -54,6 +54,20 @@ VS_MARKETPLACE_PAT
 
 Then run the `Publish to Visual Studio Marketplace` workflow manually from GitHub Actions.
 
+The workflow does not rebuild the extension. It reads the version from `source.extension.vsixmanifest`, downloads the matching VSIX from the GitHub release tag, and publishes that exact file to Visual Studio Marketplace.
+
+For example, version `1.0.6` requires a GitHub release named:
+
+```text
+v1.0.6
+```
+
+with this asset:
+
+```text
+OracleEntityGenerator.VSIX.vsix
+```
+
 ## Versioning
 
 The Marketplace version comes from:
