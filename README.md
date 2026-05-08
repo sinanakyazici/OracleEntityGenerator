@@ -33,6 +33,8 @@ After installation, open Visual Studio and use:
 Tools -> Oracle Entity Generator
 ```
 
+The extension is prepared for Visual Studio Marketplace publishing. Marketplace publishing instructions are available in [docs/marketplace-publishing.md](docs/marketplace-publishing.md).
+
 ## Requirements
 
 - Visual Studio 2026 / Visual Studio 18 Insiders, or a compatible Visual Studio version with VSIX support.

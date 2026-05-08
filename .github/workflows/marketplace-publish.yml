@@ -1,0 +1,58 @@
+name: Publish to Visual Studio Marketplace
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Build and publish VSIX
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET 10 preview
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: preview
+
+      - name: Restore
+        run: dotnet restore OracleEntityGenerator.VSIX/OracleEntityGenerator.VSIX.csproj
+
+      - name: Build VSIX
+        run: dotnet build OracleEntityGenerator.VSIX/OracleEntityGenerator.VSIX.csproj --configuration Release --no-restore -warnaserror
+
+      - name: Locate VsixPublisher
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vsInstallPath = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VSSDK -property installationPath
+          if ([string]::IsNullOrWhiteSpace($vsInstallPath)) {
+            throw "Visual Studio installation with VSSDK was not found on the runner."
+          }
+
+          $publisher = Join-Path $vsInstallPath "VSSDK\VisualStudioIntegration\Tools\Bin\VsixPublisher.exe"
+          if (-not (Test-Path $publisher)) {
+            throw "VsixPublisher.exe was not found at $publisher."
+          }
+
+          "VSIX_PUBLISHER_EXE=$publisher" >> $env:GITHUB_ENV
+
+      - name: Publish to Marketplace
+        shell: pwsh
+        env:
+          VS_MARKETPLACE_PAT: ${{ secrets.VS_MARKETPLACE_PAT }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:VS_MARKETPLACE_PAT)) {
+            throw "Missing VS_MARKETPLACE_PAT repository secret."
+          }
+
+          & "$env:VSIX_PUBLISHER_EXE" publish `
+            -payload "OracleEntityGenerator.VSIX/bin/Release/net472/OracleEntityGenerator.VSIX.vsix" `
+            -publishManifest ".marketplace/vsix-publish.json" `
+            -personalAccessToken "$env:VS_MARKETPLACE_PAT"
