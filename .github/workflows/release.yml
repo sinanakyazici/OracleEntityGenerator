@@ -6,9 +6,6 @@ on:
       - CI
     types:
       - completed
-  push:
-    tags:
-      - "v*.*.*"
   workflow_dispatch:
 
 permissions:
@@ -43,32 +40,32 @@ jobs:
       - name: Build VSIX
         run: dotnet build OracleEntityGenerator.VSIX/OracleEntityGenerator.VSIX.csproj --configuration Release --no-restore -warnaserror
 
-      - name: Move latest tag
-        if: github.event_name != 'push'
+      - name: Read VSIX version
+        shell: pwsh
+        run: |
+          [xml]$manifest = Get-Content "OracleEntityGenerator.VSIX/source.extension.vsixmanifest"
+          $version = $manifest.PackageManifest.Metadata.Identity.Version
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            throw "VSIX version could not be read from source.extension.vsixmanifest."
+          }
+
+          "VSIX_VERSION=$version" >> $env:GITHUB_ENV
+          "RELEASE_TAG=v$version" >> $env:GITHUB_ENV
+          "RELEASE_NAME=Oracle Entity Generator v$version" >> $env:GITHUB_ENV
+
+      - name: Move version tag
         shell: pwsh
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -f latest
-          git push origin refs/tags/latest --force
+          git tag -f $env:RELEASE_TAG
+          git push origin "refs/tags/$env:RELEASE_TAG" --force
 
-      - name: Create or update latest release
-        if: github.event_name != 'push'
+      - name: Create or update GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: latest
-          name: Latest VSIX
-          body: |
-            Automated VSIX build from the latest successful CI run on `main`.
-          files: OracleEntityGenerator.VSIX/bin/Release/net472/OracleEntityGenerator.VSIX.vsix
-          prerelease: false
-          make_latest: true
-          overwrite_files: true
-
-      - name: Create versioned release
-        if: github.event_name == 'push'
-        uses: softprops/action-gh-release@v2
-        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_NAME }}
           files: OracleEntityGenerator.VSIX/bin/Release/net472/OracleEntityGenerator.VSIX.vsix
           generate_release_notes: true
           overwrite_files: true
