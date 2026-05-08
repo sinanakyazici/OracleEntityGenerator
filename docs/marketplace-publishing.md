@@ -52,7 +52,7 @@ Add this repository secret:
 VS_MARKETPLACE_PAT
 ```
 
-Then run the `Publish to Visual Studio Marketplace` workflow manually from GitHub Actions.
+The `Publish` workflow runs automatically after the `Release` workflow succeeds on `main`. You can also run it manually from GitHub Actions when you need to republish the current release asset.
 
 The workflow does not rebuild the extension. It reads the version from `source.extension.vsixmanifest`, downloads the matching VSIX from the GitHub release tag, and publishes that exact file to Visual Studio Marketplace.
 

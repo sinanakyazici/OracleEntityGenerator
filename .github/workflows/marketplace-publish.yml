@@ -1,6 +1,11 @@
-name: Publish to Visual Studio Marketplace
+name: Publish
 
 on:
+  workflow_run:
+    workflows:
+      - Release
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
@@ -10,9 +15,17 @@ jobs:
   publish:
     name: Publish released VSIX
     runs-on: windows-latest
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
 
     steps:
-      - name: Checkout
+      - name: Checkout release commit
+        if: github.event_name == 'workflow_run'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Checkout current ref
+        if: github.event_name != 'workflow_run'
         uses: actions/checkout@v6
 
       - name: Read VSIX version
