@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The project follows version numbers from the VSIX manifest.
 
+## 1.0.8
+
+- Replaced the Marketplace icon with a true transparent PNG.
+
 ## 1.0.7
 
 - Added a custom Marketplace and VSIX icon.
