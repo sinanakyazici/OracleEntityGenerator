@@ -1,4 +1,4 @@
-name: Build and Test CI
+name: CI
 
 on:
   push:
@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
-    name: Build and test
+  build-test-package:
+    name: Build, test, and package
     runs-on: windows-latest
 
     steps:
@@ -42,3 +42,10 @@ jobs:
           name: test-results
           path: OracleEntityGenerator.Tests/TestResults/*.trx
           if-no-files-found: ignore
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: OracleEntityGenerator.VSIX
+          path: OracleEntityGenerator.VSIX/bin/Release/net472/OracleEntityGenerator.VSIX.vsix
+          if-no-files-found: error
