@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The project follows version numbers from the VSIX manifest.
 
+## 1.0.9
+
+- Changed Oracle `NUMBER` mapping so columns without scale metadata generate `long`.
+- Added precision and scale configuration for Oracle `NUMBER` columns when scale metadata is available.
+
 ## 1.0.8
 
 - Replaced the Marketplace icon with a true transparent PNG.

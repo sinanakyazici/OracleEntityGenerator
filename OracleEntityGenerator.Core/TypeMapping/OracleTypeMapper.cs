@@ -56,6 +56,11 @@ public sealed class OracleTypeMapper : IOracleTypeMapper
         OracleColumnMetadata column,
         OracleTypeMappingOptions options)
     {
+        if (column.Scale is null)
+        {
+            return "long";
+        }
+
         if (column.Scale > 0)
         {
             return "decimal";

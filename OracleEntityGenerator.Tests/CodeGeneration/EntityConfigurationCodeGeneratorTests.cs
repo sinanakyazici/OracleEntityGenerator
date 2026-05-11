@@ -19,6 +19,7 @@ public sealed class EntityConfigurationCodeGeneratorTests
         Assert.Contains("builder.HasKey(x => new { x.OrderId, x.LineNo });", file.SourceText);
         Assert.Contains(".HasColumnName(\"ORDER_NO\")", file.SourceText);
         Assert.Contains(".HasMaxLength(30)", file.SourceText);
+        Assert.Contains(".HasPrecision(10, 0)", file.SourceText);
         Assert.Contains(".HasPrecision(12, 2)", file.SourceText);
     }
 

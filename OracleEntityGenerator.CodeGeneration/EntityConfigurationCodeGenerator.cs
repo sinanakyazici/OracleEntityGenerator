@@ -184,9 +184,14 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
 
     private static bool ShouldWritePrecision(GeneratedProperty property)
     {
-        return property.IsDecimal
+        return IsNumber(property.Column)
             && property.Column.Precision is > 0
             && property.Column.Scale is >= 0;
+    }
+
+    private static bool IsNumber(OracleColumnMetadata column)
+    {
+        return column.DataType.Trim().Equals("NUMBER", StringComparison.OrdinalIgnoreCase);
     }
 
     private static void EnsureUniquePropertyNames(
