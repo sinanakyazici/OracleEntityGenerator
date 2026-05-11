@@ -5,6 +5,46 @@ namespace OracleEntityGenerator.Tests.Naming;
 public sealed class CSharpNamingServiceTests
 {
     [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void GetClassName_RejectsBlankOracleTableName(string oracleName)
+    {
+        var service = new CSharpNamingService();
+
+        Assert.Throws<ArgumentException>(
+            () => service.GetClassName(oracleName, new NamingOptions()));
+    }
+
+    [Fact]
+    public void GetClassName_RejectsNullOptions()
+    {
+        var service = new CSharpNamingService();
+
+        Assert.Throws<ArgumentNullException>(
+            () => service.GetClassName("CUSTOMERS", null!));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void GetPropertyName_RejectsBlankOracleColumnName(string oracleName)
+    {
+        var service = new CSharpNamingService();
+
+        Assert.Throws<ArgumentException>(
+            () => service.GetPropertyName(oracleName, new NamingOptions()));
+    }
+
+    [Fact]
+    public void GetPropertyName_RejectsNullOptions()
+    {
+        var service = new CSharpNamingService();
+
+        Assert.Throws<ArgumentNullException>(
+            () => service.GetPropertyName("CUSTOMER_ID", null!));
+    }
+
+    [Theory]
     [InlineData("CUSTOMERS", "Customers")]
     [InlineData("CUSTOMER_ORDER", "CustomerOrder")]
     [InlineData("ORDER_LINES", "OrderLines")]

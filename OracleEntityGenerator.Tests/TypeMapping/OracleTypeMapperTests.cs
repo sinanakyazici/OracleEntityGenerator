@@ -5,6 +5,25 @@ namespace OracleEntityGenerator.Tests.TypeMapping;
 
 public sealed class OracleTypeMapperTests
 {
+    [Fact]
+    public void MapColumn_RejectsNullColumn()
+    {
+        var mapper = new OracleTypeMapper();
+
+        Assert.Throws<ArgumentNullException>(
+            () => mapper.MapColumn(null!, new OracleTypeMappingOptions()));
+    }
+
+    [Fact]
+    public void MapColumn_RejectsNullOptions()
+    {
+        var mapper = new OracleTypeMapper();
+        var column = CreateColumn("NUMBER", 10, 0);
+
+        Assert.Throws<ArgumentNullException>(
+            () => mapper.MapColumn(column, null!));
+    }
+
     [Theory]
     [InlineData("VARCHAR2", null, null, "string")]
     [InlineData("NUMBER", 1, 0, "bool")]

@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OracleEntityGenerator.CodeGeneration\OracleEntityGenerator.CodeGeneration.csproj" />
     <ProjectReference Include="..\OracleEntityGenerator.Core\OracleEntityGenerator.Core.csproj" />
+    <ProjectReference Include="..\OracleEntityGenerator.Oracle\OracleEntityGenerator.Oracle.csproj" />
   </ItemGroup>
 
 </Project>
