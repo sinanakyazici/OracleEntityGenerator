@@ -33,6 +33,19 @@ public sealed class EntityCodeGeneratorTests
     }
 
     [Fact]
+    public void GenerateEntity_MapsNumberWithoutScaleMetadataToLong()
+    {
+        var table = TestTableFactory.CreateNumberMetadataEdgeCaseTable();
+        var generator = new EntityCodeGenerator();
+
+        var file = generator.GenerateEntity(table, CreateOptions());
+
+        Assert.Contains("public long UnknownScaleValue { get; set; }", file.SourceText);
+        Assert.Contains("public decimal LowerCaseAmount { get; set; }", file.SourceText);
+        Assert.Contains("public decimal NoPrecisionValue { get; set; }", file.SourceText);
+    }
+
+    [Fact]
     public void GenerateEntity_CanWriteXmlCommentsFromOracleComments()
     {
         var table = TestTableFactory.CreateOrderLinesTable();

@@ -93,4 +93,57 @@ internal static class TestTableFactory
             ]
         };
     }
+
+    public static OracleTableMetadata CreateNumberMetadataEdgeCaseTable()
+    {
+        return new OracleTableMetadata
+        {
+            SchemaName = "CRM",
+            Name = "NUMBER_EDGE_CASES",
+            Columns =
+            [
+                new OracleColumnMetadata
+                {
+                    Name = "ID",
+                    DataType = "NUMBER",
+                    Precision = 10,
+                    Scale = 0,
+                    IsNullable = false,
+                    Ordinal = 1
+                },
+                new OracleColumnMetadata
+                {
+                    Name = "UNKNOWN_SCALE_VALUE",
+                    DataType = "NUMBER",
+                    Precision = 10,
+                    Scale = null,
+                    IsNullable = false,
+                    Ordinal = 2
+                },
+                new OracleColumnMetadata
+                {
+                    Name = "LOWER_CASE_AMOUNT",
+                    DataType = " number ",
+                    Precision = 12,
+                    Scale = 2,
+                    IsNullable = false,
+                    Ordinal = 3
+                },
+                new OracleColumnMetadata
+                {
+                    Name = "NO_PRECISION_VALUE",
+                    DataType = "NUMBER",
+                    Precision = null,
+                    Scale = 2,
+                    IsNullable = false,
+                    Ordinal = 4
+                }
+            ],
+            PrimaryKey = new OraclePrimaryKeyMetadata
+            {
+                Name = "PK_NUMBER_EDGE_CASES",
+                ColumnNames = ["ID"]
+            }
+        };
+    }
 }

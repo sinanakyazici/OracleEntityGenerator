@@ -65,6 +65,21 @@ public sealed class EntityConfigurationCodeGeneratorTests
     }
 
     [Fact]
+    public void GenerateConfiguration_WritesPrecisionOnlyWhenNumberScaleAndPrecisionAreAvailable()
+    {
+        var table = TestTableFactory.CreateNumberMetadataEdgeCaseTable();
+        var generator = new EntityConfigurationCodeGenerator();
+
+        var file = generator.GenerateConfiguration(table, CreateOptions());
+        var source = NormalizeLineEndings(file.SourceText);
+
+        Assert.Contains(".HasPrecision(10, 0)", source);
+        Assert.Contains(".HasPrecision(12, 2)", source);
+        Assert.Contains(".HasColumnName(\"UNKNOWN_SCALE_VALUE\")\n            .IsRequired();", source);
+        Assert.Contains(".HasColumnName(\"NO_PRECISION_VALUE\")\n            .IsRequired();", source);
+    }
+
+    [Fact]
     public void GenerateConfiguration_EscapesSchemaAndTableStringLiterals()
     {
         var table = SmokeTests.SmokeTestData.CreateIdentifierEdgeCaseTable();
@@ -115,5 +130,10 @@ public sealed class EntityConfigurationCodeGeneratorTests
             EntityNamespace = "MyProject.Domain.Entities",
             ConfigurationNamespace = "MyProject.Infrastructure.Persistence.Configurations"
         };
+    }
+
+    private static string NormalizeLineEndings(string value)
+    {
+        return value.Replace("\r\n", "\n", StringComparison.Ordinal);
     }
 }
