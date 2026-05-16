@@ -7,24 +7,54 @@
              xmlns:vm="clr-namespace:OracleEntityGenerator.VsExtension.ViewModels"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:GeneratorToolWindowViewModel}"
-             d:DesignHeight="760"
-             d:DesignWidth="1040"
-             Background="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}"
-             Foreground="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}">
+             d:DesignHeight="900"
+             d:DesignWidth="1180">
     <UserControl.Resources>
+        <Thickness x:Key="SectionPadding">12</Thickness>
+
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
+
+        <Style x:Key="MutedTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="FontSize" Value="11" />
+        </Style>
+
+        <Style x:Key="SectionTitleStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+
+        <Style x:Key="FieldLabelStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Margin" Value="0,0,0,3" />
         </Style>
 
         <Style TargetType="{x:Type CheckBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="0,5,0,0" />
         </Style>
 
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
-            <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.GridHeadingBackgroundBrushKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBorderBrushKey}}" />
             <Setter Property="CaretBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="Padding" Value="6,3" />
+            <Setter Property="MinHeight" Value="24" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Style.Triggers>
+                <Trigger Property="IsReadOnly" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" />
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="{x:Type PasswordBox}">
@@ -32,23 +62,26 @@
             <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBorderBrushKey}}" />
             <Setter Property="CaretBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
+            <Setter Property="Padding" Value="6,3" />
+            <Setter Property="MinHeight" Value="24" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
 
         <Style TargetType="{x:Type ComboBox}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxBackgroundBrushKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxBorderBrushKey}}" />
+            <Setter Property="MinHeight" Value="26" />
+            <Setter Property="Padding" Value="4,2" />
         </Style>
 
         <Style TargetType="{x:Type ComboBoxItem}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxItemTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxPopupBackgroundGradientBrushKey}}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxPopupBorderBrushKey}}" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxItemMouseOverTextBrushKey}}" />
                     <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxItemMouseOverBackgroundBrushKey}}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxItemMouseOverBorderBrushKey}}" />
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ComboBoxMouseDownTextBrushKey}}" />
@@ -61,240 +94,426 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ButtonTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.SystemButtonFaceBrushKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBorderBrushKey}}" />
+            <Setter Property="Padding" Value="11,4" />
+            <Setter Property="MinHeight" Value="28" />
+            <Setter Property="FontSize" Value="12" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.SystemButtonFaceBrushKey}}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ButtonTextBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="MinHeight" Value="34" />
+        </Style>
+
+        <Style x:Key="IconButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Width" Value="28" />
+            <Setter Property="MinWidth" Value="28" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="MinHeight" Value="24" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="ToolTip" Value="Select folder" />
+        </Style>
+
+        <Style x:Key="SectionBorderStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBorderBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="{StaticResource SectionPadding}" />
+        </Style>
+
+        <Style x:Key="MetricBorderStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.GridHeadingBackgroundBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBorderBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="9,6" />
+            <Setter Property="Margin" Value="0,0,8,0" />
         </Style>
 
         <Style TargetType="{x:Type DataGrid}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBorderBrushKey}}" />
             <Setter Property="RowBackground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" />
             <Setter Property="AlternatingRowBackground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" />
-            <Setter Property="GridLinesVisibility" Value="All" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
             <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.GridLineBrushKey}}" />
             <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.GridLineBrushKey}}" />
+            <Setter Property="HeadersVisibility" Value="Column" />
+            <Setter Property="RowHeight" Value="28" />
+            <Setter Property="CanUserResizeRows" Value="False" />
         </Style>
 
         <Style TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.GridHeadingTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.GridHeadingBackgroundBrushKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.GridLineBrushKey}}" />
+            <Setter Property="Padding" Value="8,5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
         </Style>
 
         <Style TargetType="{x:Type DataGridCell}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowTextBrushKey}}" />
             <Setter Property="Background" Value="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" />
             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vsui:EnvironmentColors.GridLineBrushKey}}" />
+            <Setter Property="Padding" Value="8,3" />
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="12"
-          Background="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}">
+    <Grid Background="{DynamicResource {x:Static vsui:EnvironmentColors.ToolWindowBackgroundBrushKey}}" Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="112" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                <TextBlock Text="Connection" FontWeight="SemiBold" />
-                <UniformGrid Columns="2" Margin="0,6,0,0">
-                    <TextBlock Text="Host" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding Host, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="Port" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="Service" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="User" VerticalAlignment="Center" />
-                    <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Text="Password" VerticalAlignment="Center" />
-                    <PasswordBox x:Name="PasswordInput"
-                                 PasswordChanged="PasswordBox_OnPasswordChanged" />
-                </UniformGrid>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Margin="0,0,10,0">
-                <TextBlock Text="Full connection string" FontWeight="SemiBold" />
-                <TextBox Height="78"
-                         Margin="0,6,0,0"
-                         AcceptsReturn="True"
-                         TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto"
-                         Text="{Binding FullConnectionString, UpdateSourceTrigger=PropertyChanged}" />
-                <CheckBox Margin="0,8,0,0"
-                          Content="Show system schemas"
-                          IsChecked="{Binding ShowSystemSchemas}" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="2" Margin="0,0,10,0">
-                <TextBlock Text="Schema" FontWeight="SemiBold" />
-                <ComboBox Margin="0,6,0,0"
-                          ItemsSource="{Binding Schemas}"
-                          SelectedItem="{Binding SelectedSchemaName}" />
-                <Button Margin="0,8,0,0"
-                        Content="Load Tables"
-                        Command="{Binding LoadTablesCommand}" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="3" VerticalAlignment="Bottom" MinWidth="130">
-                <Button Content="Connect Database"
-                        Command="{Binding TestConnectionCommand}" />
-                <Button Margin="0,8,0,0"
-                        Content="Load Schemas"
-                        Command="{Binding LoadSchemasCommand}" />
-                <Button Margin="0,8,0,0"
-                        Content="Save Settings"
-                        Command="{Binding SaveSettingsCommand}" />
-                <Button Margin="0,8,0,0"
-                        Content="Load Settings"
-                        Command="{Binding LoadSettingsCommand}" />
-            </StackPanel>
-        </Grid>
-
-        <Grid Grid.Row="1" Margin="0,12,0,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0" Margin="0,0,12,0">
+        <Border Grid.Row="0"
+                Style="{StaticResource SectionBorderStyle}"
+                Margin="0,0,0,10">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <DockPanel Grid.Row="0" Margin="0,0,0,8">
-                    <TextBox DockPanel.Dock="Right"
-                             Width="260"
-                             Text="{Binding TableSearchText, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock DockPanel.Dock="Right"
-                               Margin="0,0,8,0"
-                               Text="Tables Filter: "
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center" TextAlignment="Right" />
-                </DockPanel>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <DataGrid Grid.Row="1"
-                          AutoGenerateColumns="False"
-                          CanUserAddRows="False"
-                          ItemsSource="{Binding VisibleTables}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="" Width="40">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Schema"
-                                            Binding="{Binding SchemaName, Mode=OneWay}"
-                                            IsReadOnly="True"
-                                            Width="120" />
-                        <DataGridTextColumn Header="Table"
-                                            Binding="{Binding TableName, Mode=OneWay}"
-                                            IsReadOnly="True"
-                                            Width="*" />
-                        <DataGridTextColumn Header="Columns"
-                                            Binding="{Binding ColumnCount, Mode=OneWay}"
-                                            IsReadOnly="True"
-                                            Width="80" />
-                        <DataGridCheckBoxColumn Header="PK"
-                                                Binding="{Binding HasPrimaryKey, Mode=OneWay}"
-                                                IsReadOnly="True"
-                                                Width="50" />
-                        <DataGridTextColumn Header="Comment"
-                                            Binding="{Binding Comment, Mode=OneWay}"
-                                            IsReadOnly="True"
-                                            Width="2*" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Oracle Entity Generator"
+                                   FontSize="17"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Margin="14,2,0,0"
+                                   Style="{StaticResource MutedTextStyle}"
+                                   Text="{Binding StatusText}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <Border Style="{StaticResource MetricBorderStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Schema" Style="{StaticResource MutedTextStyle}" FontSize="10" />
+                                <TextBlock Text="{Binding CurrentSchemaText}" FontWeight="SemiBold" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource MetricBorderStyle}">
+                            <StackPanel>
+                                <TextBlock Text="Tables" Style="{StaticResource MutedTextStyle}" FontSize="10" />
+                                <TextBlock Text="{Binding LoadedTableCount}" FontWeight="SemiBold" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource MetricBorderStyle}" Margin="0">
+                            <StackPanel>
+                                <TextBlock Text="Selected" Style="{StaticResource MutedTextStyle}" FontSize="10" />
+                                <TextBlock Text="{Binding SelectedTableCount}" FontWeight="SemiBold" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.55*" />
+                        <ColumnDefinition Width="1.35*" />
+                        <ColumnDefinition Width="1.1*" />
+                        <ColumnDefinition Width="132" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="0,0,12,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="76" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Host" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Port" Style="{StaticResource FieldLabelStyle}" Margin="8,0,0,3" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="User" Style="{StaticResource FieldLabelStyle}" Margin="8,0,0,3" />
+                        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Host, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,0" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Grid.Row="1" Grid.Column="2" Margin="8,0,0,0" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Service" Style="{StaticResource FieldLabelStyle}" Margin="0,8,0,3" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="Password" Style="{StaticResource FieldLabelStyle}" Margin="8,8,0,3" />
+                        <TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}" />
+                        <PasswordBox Grid.Row="3"
+                                     Grid.Column="2"
+                                     Margin="8,0,0,0"
+                                     x:Name="PasswordInput"
+                                     PasswordChanged="PasswordBox_OnPasswordChanged" />
+                    </Grid>
+
+                    <Grid Grid.Column="1" Margin="0,0,12,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Full connection string" Style="{StaticResource FieldLabelStyle}" />
+                        <TextBox Grid.Row="1"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Text="{Binding FullConnectionString, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+
+                    <Grid Grid.Column="2" Margin="0,0,12,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Schema" Style="{StaticResource FieldLabelStyle}" />
+                        <ComboBox Grid.Row="1"
+                                  ItemsSource="{Binding Schemas}"
+                                  SelectedItem="{Binding SelectedSchemaName}" />
+                        <CheckBox
+                                  Content="Show system schemas"
+                                  IsChecked="{Binding ShowSystemSchemas}" Margin="120,0,0,3" />
+                        <Button Grid.Row="3"
+                                Margin="0,19,0,-11"
+                                Content="Test Connection"
+                                Command="{Binding TestConnectionCommand}" />
+                    </Grid>
+
+                    <Grid Grid.Column="3"
+                          Margin="0,18,0,0"
+                          VerticalAlignment="Top" Height="73">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Button Content="Load Schemas"
+                                Command="{Binding LoadSchemasCommand}" />
+                        <Button Grid.Row="1"
+                                Margin="0,17,0,-10"
+                                Content="Load Tables"
+                                Command="{Binding LoadTablesCommand}" />
+                    </Grid>
+                </Grid>
             </Grid>
+        </Border>
 
-            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <TextBlock Text="Generation" FontWeight="SemiBold" />
-                    <TextBlock Margin="0,8,0,0" Text="Output folder" />
-                    <TextBox Text="{Binding OutputDirectory, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.75*" />
+                <ColumnDefinition Width="0.92*" />
+            </Grid.ColumnDefinitions>
 
-                    <TextBlock Margin="0,8,0,0" Text="Entity namespace" />
-                    <TextBox Text="{Binding EntityNamespace, UpdateSourceTrigger=PropertyChanged}" />
+            <Border Grid.Column="0"
+                    Style="{StaticResource SectionBorderStyle}"
+                    Margin="0,0,10,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                    <TextBlock Margin="0,8,0,0" Text="Configuration namespace" />
-                    <TextBox Text="{Binding ConfigurationNamespace, UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Tables" Style="{StaticResource SectionTitleStyle}" />
+                            <TextBlock Text="{Binding GenerationSummaryText}" Style="{StaticResource MutedTextStyle}" />
+                        </StackPanel>
+                    </Grid>
 
-                    <TextBlock Margin="0,8,0,0" Text="Entity relative folder" />
-                    <TextBox Text="{Binding EntityOutputDirectory, UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid Grid.Row="1" Margin="0,10,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Margin="0,0,8,0"
+                                   Text="Filter"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding TableSearchText, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
 
-                    <TextBlock Margin="0,8,0,0" Text="Configuration relative folder" />
-                    <TextBox Text="{Binding ConfigurationOutputDirectory, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGrid Grid.Row="2"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              SelectionUnit="FullRow"
+                              ItemsSource="{Binding VisibleTables}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="" Width="42">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Schema"
+                                                Binding="{Binding SchemaName, Mode=OneWay}"
+                                                IsReadOnly="True"
+                                                Width="120" />
+                            <DataGridTextColumn Header="Table"
+                                                Binding="{Binding TableName, Mode=OneWay}"
+                                                IsReadOnly="True"
+                                                Width="1.2*" />
+                            <DataGridTextColumn Header="Columns"
+                                                Binding="{Binding ColumnCount, Mode=OneWay}"
+                                                IsReadOnly="True"
+                                                Width="76" />
+                            <DataGridCheckBoxColumn Header="PK"
+                                                    Binding="{Binding HasPrimaryKey, Mode=OneWay}"
+                                                    IsReadOnly="True"
+                                                    Width="48" />
+                            <DataGridTextColumn Header="Comment"
+                                                Binding="{Binding Comment, Mode=OneWay}"
+                                                IsReadOnly="True"
+                                                Width="2*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
 
-                    <TextBlock Margin="0,8,0,0" Text="Table prefixes to remove" />
-                    <TextBox Text="{Binding TablePrefixesToRemove, UpdateSourceTrigger=PropertyChanged}" />
+            <Border Grid.Column="1" Style="{StaticResource SectionBorderStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                    <TextBlock Margin="0,8,0,0" Text="Column prefixes to remove" />
-                    <TextBox Text="{Binding ColumnPrefixesToRemove, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Text="Generation Settings" Style="{StaticResource SectionTitleStyle}" />
 
-                    <TextBlock Margin="0,12,0,0" Text="File header" />
-                    <TextBox Height="72"
-                             AcceptsReturn="True"
-                             TextWrapping="Wrap"
-                             VerticalScrollBarVisibility="Auto"
-                             Text="{Binding FileHeader, UpdateSourceTrigger=PropertyChanged}" />
+                    <ScrollViewer
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled" Margin="0,6,0,12" Grid.Row="1">
+                        <StackPanel Margin="0,0,6,0">
+                            <TextBlock Text="Entity namespace" Style="{StaticResource FieldLabelStyle}" />
+                            <TextBox Text="{Binding EntityNamespace, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBlock Margin="0,8,0,0" Text="Entity usings" />
-                    <TextBox Text="{Binding EntityUsings, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Text="Configuration namespace" Style="{StaticResource FieldLabelStyle}" Margin="0,8,0,3" />
+                            <TextBox Text="{Binding ConfigurationNamespace, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBlock Margin="0,8,0,0" Text="Configuration usings" />
-                    <TextBox Text="{Binding ConfigurationUsings, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Text="Entity folder" Style="{StaticResource FieldLabelStyle}" Margin="0,8,0,3" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0"
+                                         IsReadOnly="True"
+                                         Text="{Binding EntityOutputDirectoryDisplay, Mode=OneWay}" />
+                                <Button Grid.Column="1"
+                                        Margin="6,0,0,0"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        Command="{Binding BrowseEntityOutputDirectoryCommand}">
+                                    <TextBlock FontFamily="Segoe MDL2 Assets"
+                                               FontSize="13"
+                                               Text="&#xE8B7;" />
+                                </Button>
+                            </Grid>
 
-                    <CheckBox Margin="0,12,0,0"
-                              Content="Overwrite existing files"
-                              IsChecked="{Binding OverwriteExistingFiles}" />
-                    <CheckBox Margin="0,6,0,0"
-                              Content="Nullable reference types"
-                              IsChecked="{Binding NullableReferenceTypes}" />
-                    <CheckBox Margin="0,6,0,0"
-                              Content="Generate XML comments"
-                              IsChecked="{Binding GenerateXmlComments}" />
-                    <CheckBox Margin="0,6,0,0"
-                              Content="Generate HasColumnType mappings"
-                              IsChecked="{Binding GenerateColumnTypeMappings}" />
-                    <CheckBox Margin="0,6,0,0"
-                              Content="Compact generated code"
-                              IsChecked="{Binding CompactOutput}" />
-                    <CheckBox Margin="0,6,0,0"
-                              Content="Allow keyless entities"
-                              IsChecked="{Binding GenerateKeylessEntities}" />
+                            <TextBlock Text="Config folder" Style="{StaticResource FieldLabelStyle}" Margin="0,8,0,3" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0"
+                                         IsReadOnly="True"
+                                         Text="{Binding ConfigurationOutputDirectoryDisplay, Mode=OneWay}" />
+                                <Button Grid.Column="1"
+                                        Margin="6,0,0,0"
+                                        Style="{StaticResource IconButtonStyle}"
+                                        Command="{Binding BrowseConfigurationOutputDirectoryCommand}">
+                                    <TextBlock FontFamily="Segoe MDL2 Assets"
+                                               FontSize="13"
+                                               Text="&#xE8B7;" />
+                                </Button>
+                            </Grid>
 
-                    <Button Margin="0,16,0,0"
-                            Height="34"
-                            Content="Generate"
-                            Command="{Binding GenerateCommand}" />
-                </StackPanel>
-            </ScrollViewer>
+                            <TextBlock Text="File header" Style="{StaticResource FieldLabelStyle}" Margin="0,8,0,3" />
+                            <TextBox Height="64"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto"
+                                     Text="{Binding FileHeader, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <TextBlock Text="Options" Style="{StaticResource FieldLabelStyle}" Margin="0,10,0,3" />
+                            <CheckBox Content="Overwrite existing files"
+                                      IsChecked="{Binding OverwriteExistingFiles}" />
+                            <CheckBox Content="Nullable reference types"
+                                      IsChecked="{Binding NullableReferenceTypes}" />
+                            <CheckBox Content="Generate XML comments"
+                                      IsChecked="{Binding GenerateXmlComments}" />
+                            <CheckBox Content="Generate HasColumnType mappings"
+                                      IsChecked="{Binding GenerateColumnTypeMappings}" />
+                            <CheckBox Content="Compact generated code"
+                                      IsChecked="{Binding CompactOutput}" />
+                            <CheckBox Content="Allow keyless entities"
+                                      IsChecked="{Binding GenerateKeylessEntities}" />
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                        <Button Style="{StaticResource PrimaryButtonStyle}"
+                                Content="Generate Files"
+                                Command="{Binding GenerateCommand}" />
+                        <Grid Margin="0,7,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                                    Content="Save Settings"
+                                    Command="{Binding SaveSettingsCommand}" />
+                            <Button Grid.Column="1"
+                                    Margin="7,0,0,0"
+                                    Content="Load Settings"
+                                    Command="{Binding LoadSettingsCommand}" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </Grid>
 
-        <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="100" />
-            </Grid.RowDefinitions>
-            <TextBlock Text="Log" FontWeight="SemiBold" />
-            <TextBox Grid.Row="1"
-                     Margin="0,6,0,0"
-                     IsReadOnly="True"
-                     TextWrapping="Wrap"
-                     AcceptsReturn="True"
-                     VerticalScrollBarVisibility="Auto"
-                     Text="{Binding LogText}" />
-        </Grid>
+        <Border Grid.Row="2"
+                Style="{StaticResource SectionBorderStyle}"
+                Margin="0,10,0,0"
+                Padding="12,8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Log" Style="{StaticResource SectionTitleStyle}" Margin="0,0,0,5" />
+                <TextBox Grid.Row="1"
+                         IsReadOnly="True"
+                         FontFamily="Consolas"
+                         FontSize="11"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         Text="{Binding LogText}" />
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

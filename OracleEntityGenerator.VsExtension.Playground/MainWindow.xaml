@@ -6,10 +6,10 @@
         xmlns:views="clr-namespace:OracleEntityGenerator.VsExtension.Views;assembly=OracleEntityGenerator.VsExtension"
         mc:Ignorable="d"
         Title="Oracle Entity Generator UI Playground"
-        Height="860"
+        Height="1020"
         Width="1180"
-        MinHeight="720"
+        MinHeight="940"
         MinWidth="980"
         WindowStartupLocation="CenterScreen">
-    <views:GeneratorToolWindowControl />
+    <views:GeneratorToolWindowControl Loaded="GeneratorToolWindowControl_Loaded" />
 </Window>

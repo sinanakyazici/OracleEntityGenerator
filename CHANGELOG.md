@@ -8,6 +8,8 @@ The project follows version numbers from the VSIX manifest.
 
 - Added an optional `HasColumnType(...)` configuration mapping mode.
 - Added compact generated code output with inline fluent configuration calls and reduced blank lines.
+- Modernized the Visual Studio tool window layout with clearer status, connection, table, generation, and log sections.
+- Added folder pickers for entity and configuration directories and removed unused output, using, and prefix fields from the tool window.
 
 ## 1.0.9
 

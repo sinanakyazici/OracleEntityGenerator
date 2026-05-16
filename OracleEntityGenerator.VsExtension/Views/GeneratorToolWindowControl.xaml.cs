@@ -4,7 +4,7 @@ using OracleEntityGenerator.VsExtension.ViewModels;
 
 namespace OracleEntityGenerator.VsExtension.Views;
 
-public partial class GeneratorToolWindowControl : UserControl
+public partial class GeneratorToolWindowControl : System.Windows.Controls.UserControl
 {
     public GeneratorToolWindowControl()
     {

@@ -6,36 +6,30 @@ namespace OracleEntityGenerator.VsExtension.Services;
 public sealed class GeneratedFileWriter
 {
     public async Task WriteFilesAsync(
-        string baseDirectory,
         IReadOnlyList<GeneratedCodeFile> files,
         bool overwriteExistingFiles,
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(baseDirectory))
-        {
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(baseDirectory));
-        }
-
         if (files is null)
         {
             throw new ArgumentNullException(nameof(files));
         }
 
-        var normalizedBaseDirectory = Path.GetFullPath(baseDirectory);
-        Directory.CreateDirectory(normalizedBaseDirectory);
-
         foreach (var file in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var targetDirectory = Path.GetFullPath(Path.Combine(
-                normalizedBaseDirectory,
-                file.RelativeDirectory ?? string.Empty));
+            if (string.IsNullOrWhiteSpace(file.RelativeDirectory))
+            {
+                throw new ArgumentException("Generated file target directory cannot be empty.", nameof(files));
+            }
+
+            var targetDirectory = Path.GetFullPath(file.RelativeDirectory);
             var targetPath = Path.GetFullPath(Path.Combine(targetDirectory, file.FileName));
 
-            if (!IsPathInsideDirectory(targetPath, normalizedBaseDirectory))
+            if (!IsPathInsideDirectory(targetPath, targetDirectory))
             {
-                throw new InvalidOperationException($"Generated file path escapes output directory: {file.FileName}");
+                throw new InvalidOperationException($"Generated file path escapes target directory: {file.FileName}");
             }
 
             if (!overwriteExistingFiles && File.Exists(targetPath))

@@ -20,4 +20,9 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     }
+
+    private void GeneratorToolWindowControl_Loaded(object sender, RoutedEventArgs e)
+    {
+
+    }
 }
