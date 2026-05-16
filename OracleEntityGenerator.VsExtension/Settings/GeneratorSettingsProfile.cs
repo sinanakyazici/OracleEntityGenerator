@@ -34,6 +34,10 @@ public sealed record GeneratorSettingsProfile
 
     public bool GenerateXmlComments { get; init; }
 
+    public bool GenerateColumnTypeMappings { get; init; }
+
+    public bool CompactOutput { get; init; }
+
     public bool GenerateKeylessEntities { get; init; }
 
     public string FileHeader { get; init; } = string.Empty;

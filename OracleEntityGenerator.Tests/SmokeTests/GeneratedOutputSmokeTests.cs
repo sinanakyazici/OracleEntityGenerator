@@ -89,6 +89,23 @@ public sealed class GeneratedOutputSmokeTests
         AssertGeneratedOutputCompiles(files);
     }
 
+    [Fact]
+    public void GeneratedEntityAndConfiguration_CompileForCompactColumnTypeOutput()
+    {
+        var files = GenerateFiles(
+            SmokeTestData.CreateOrderLinesTable(),
+            new GenerationOptions
+            {
+                EntityNamespace = "Smoke.Domain.Entities",
+                ConfigurationNamespace = "Smoke.Infrastructure.Persistence.Configurations",
+                CompactOutput = true,
+                GenerateColumnTypeMappings = true
+            });
+
+        WriteGeneratedFiles("compact-column-types", files);
+        AssertGeneratedOutputCompiles(files);
+    }
+
     private static IReadOnlyList<GeneratedCodeFile> GenerateFiles(
         Core.Metadata.OracleTableMetadata table,
         GenerationOptions options)

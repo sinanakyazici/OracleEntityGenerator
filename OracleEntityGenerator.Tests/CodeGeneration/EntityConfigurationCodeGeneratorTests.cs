@@ -80,6 +80,52 @@ public sealed class EntityConfigurationCodeGeneratorTests
     }
 
     [Fact]
+    public void GenerateConfiguration_CanWriteOracleColumnTypeMappings()
+    {
+        var table = TestTableFactory.CreateOrderLinesTable();
+        var generator = new EntityConfigurationCodeGenerator();
+        var options = CreateOptions() with { GenerateColumnTypeMappings = true };
+
+        var file = generator.GenerateConfiguration(table, options);
+
+        Assert.Contains(".HasColumnType(\"NUMBER(10,0)\")", file.SourceText);
+        Assert.Contains(".HasColumnType(\"VARCHAR2(30)\")", file.SourceText);
+        Assert.Contains(".HasColumnType(\"DATE\")", file.SourceText);
+    }
+
+    [Fact]
+    public void GenerateConfiguration_OmitsOracleColumnTypeMappingsByDefault()
+    {
+        var table = TestTableFactory.CreateOrderLinesTable();
+        var generator = new EntityConfigurationCodeGenerator();
+
+        var file = generator.GenerateConfiguration(table, CreateOptions());
+
+        Assert.DoesNotContain("HasColumnType", file.SourceText);
+    }
+
+    [Fact]
+    public void GenerateConfiguration_CanWriteCompactInlinePropertyMappings()
+    {
+        var table = TestTableFactory.CreateOrderLinesTable();
+        var generator = new EntityConfigurationCodeGenerator();
+        var options = CreateOptions() with
+        {
+            CompactOutput = true,
+            GenerateColumnTypeMappings = true
+        };
+
+        var file = generator.GenerateConfiguration(table, options);
+        var source = NormalizeLineEndings(file.SourceText);
+
+        Assert.Contains(
+            "builder.Property(x => x.OrderNo).HasColumnName(\"ORDER_NO\").HasColumnType(\"VARCHAR2(30)\").HasMaxLength(30).IsRequired();",
+            source);
+        Assert.DoesNotContain("builder.Property(x => x.OrderNo)\n", source);
+        Assert.DoesNotContain("\n\n", source);
+    }
+
+    [Fact]
     public void GenerateConfiguration_EscapesSchemaAndTableStringLiterals()
     {
         var table = SmokeTests.SmokeTestData.CreateIdentifierEdgeCaseTable();

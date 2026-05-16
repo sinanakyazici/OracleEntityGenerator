@@ -59,6 +59,20 @@ public sealed class EntityCodeGeneratorTests
     }
 
     [Fact]
+    public void GenerateEntity_CanWriteCompactOutputWithoutExtraBlankLines()
+    {
+        var table = TestTableFactory.CreateOrderLinesTable();
+        var generator = new EntityCodeGenerator();
+        var options = CreateOptions() with { CompactOutput = true };
+
+        var file = generator.GenerateEntity(table, options);
+        var source = file.SourceText.Replace("\r\n", "\n", StringComparison.Ordinal);
+
+        Assert.Contains("public int OrderId { get; set; }\n    public short LineNo { get; set; }", source);
+        Assert.DoesNotContain("\n\n", source);
+    }
+
+    [Fact]
     public void GenerateEntity_RejectsDuplicatePropertyNames()
     {
         var table = SmokeTests.SmokeTestData.CreateDuplicatePropertyNameTable();

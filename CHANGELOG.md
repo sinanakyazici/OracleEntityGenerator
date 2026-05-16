@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The project follows version numbers from the VSIX manifest.
 
+## 1.0.10
+
+- Added an optional `HasColumnType(...)` configuration mapping mode.
+- Added compact generated code output with inline fluent configuration calls and reduced blank lines.
+
 ## 1.0.9
 
 - Changed Oracle `NUMBER` mapping so columns without scale metadata generate `long`.

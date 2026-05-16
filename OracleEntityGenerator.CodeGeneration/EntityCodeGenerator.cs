@@ -48,7 +48,7 @@ public sealed class EntityCodeGenerator : IEntityCodeGenerator
         if (!options.NullableReferenceTypes)
         {
             writer.WriteLine("#nullable disable");
-            writer.WriteLine();
+            WriteBlankLine(writer, options);
         }
 
         var usings = GetEntityUsings(properties, options);
@@ -59,11 +59,11 @@ public sealed class EntityCodeGenerator : IEntityCodeGenerator
 
         if (usings.Count > 0)
         {
-            writer.WriteLine();
+            WriteBlankLine(writer, options);
         }
 
         writer.WriteLine($"namespace {options.EntityNamespace};");
-        writer.WriteLine();
+        WriteBlankLine(writer, options);
         WriteXmlComment(writer, table.Comment, options.GenerateXmlComments);
         writer.WriteLine($"public class {className}");
         writer.WriteLine("{");
@@ -75,7 +75,7 @@ public sealed class EntityCodeGenerator : IEntityCodeGenerator
             WriteXmlComment(writer, property.Column.Comment, options.GenerateXmlComments);
             writer.WriteLine(GetPropertyDeclaration(property, options));
 
-            if (i < properties.Length - 1)
+            if (!options.CompactOutput && i < properties.Length - 1)
             {
                 writer.WriteLine();
             }
@@ -86,7 +86,7 @@ public sealed class EntityCodeGenerator : IEntityCodeGenerator
 
         if (!options.NullableReferenceTypes)
         {
-            writer.WriteLine();
+            WriteBlankLine(writer, options);
             writer.WriteLine("#nullable restore");
         }
 
@@ -170,6 +170,16 @@ public sealed class EntityCodeGenerator : IEntityCodeGenerator
         }
 
         writer.WriteLine();
+    }
+
+    private static void WriteBlankLine(
+        CodeWriter writer,
+        GenerationOptions options)
+    {
+        if (!options.CompactOutput)
+        {
+            writer.WriteLine();
+        }
     }
 
     private static void EnsureUniquePropertyNames(

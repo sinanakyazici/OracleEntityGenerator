@@ -62,9 +62,9 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
             writer.WriteLine($"using {options.EntityNamespace};");
         }
 
-        writer.WriteLine();
+        WriteBlankLine(writer, options);
         writer.WriteLine($"namespace {options.ConfigurationNamespace};");
-        writer.WriteLine();
+        WriteBlankLine(writer, options);
         writer.WriteLine($"public sealed class {configurationClassName} : IEntityTypeConfiguration<{className}>");
         writer.WriteLine("{");
         writer.Indent();
@@ -73,15 +73,15 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
         writer.Indent();
 
         writer.WriteLine($"builder.ToTable(\"{EscapeStringLiteral(table.Name)}\", \"{EscapeStringLiteral(table.SchemaName)}\");");
-        writer.WriteLine();
+        WriteBlankLine(writer, options);
 
         WriteKeyConfiguration(writer, table, options);
 
         for (var i = 0; i < properties.Length; i++)
         {
-            WritePropertyConfiguration(writer, properties[i]);
+            WritePropertyConfiguration(writer, properties[i], options);
 
-            if (i < properties.Length - 1)
+            if (!options.CompactOutput && i < properties.Length - 1)
             {
                 writer.WriteLine();
             }
@@ -119,7 +119,7 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
         if (table.PrimaryKey is null)
         {
             writer.WriteLine("builder.HasNoKey();");
-            writer.WriteLine();
+            WriteBlankLine(writer, options);
             return;
         }
 
@@ -132,20 +132,23 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
             : $"new {{ {string.Join(", ", keyProperties.Select(x => $"x.{x}"))} }}";
 
         writer.WriteLine($"builder.HasKey(x => {expression});");
-        writer.WriteLine();
+        WriteBlankLine(writer, options);
     }
 
     private static void WritePropertyConfiguration(
         CodeWriter writer,
-        GeneratedProperty property)
+        GeneratedProperty property,
+        GenerationOptions options)
     {
-        writer.WriteLine($"builder.Property(x => x.{property.PropertyName})");
-        writer.Indent();
-
         var calls = new List<string>
         {
             $".HasColumnName(\"{EscapeStringLiteral(property.Column.Name)}\")"
         };
+
+        if (options.GenerateColumnTypeMappings)
+        {
+            calls.Add($".HasColumnType(\"{EscapeStringLiteral(GetOracleColumnType(property.Column))}\")");
+        }
 
         if (ShouldWriteMaxLength(property))
         {
@@ -161,6 +164,15 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
         {
             calls.Add(".IsRequired()");
         }
+
+        if (options.CompactOutput)
+        {
+            writer.WriteLine($"builder.Property(x => x.{property.PropertyName}){string.Concat(calls)};");
+            return;
+        }
+
+        writer.WriteLine($"builder.Property(x => x.{property.PropertyName})");
+        writer.Indent();
 
         for (var i = 0; i < calls.Count; i++)
         {
@@ -192,6 +204,22 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
     private static bool IsNumber(OracleColumnMetadata column)
     {
         return column.DataType.Trim().Equals("NUMBER", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string GetOracleColumnType(OracleColumnMetadata column)
+    {
+        var dataType = column.DataType.Trim().ToUpperInvariant();
+
+        return dataType switch
+        {
+            "NUMBER" when column.Precision is > 0 && column.Scale is >= 0 =>
+                $"NUMBER({column.Precision.Value},{column.Scale.Value})",
+            "NUMBER" when column.Precision is > 0 =>
+                $"NUMBER({column.Precision.Value})",
+            "VARCHAR2" or "NVARCHAR2" or "CHAR" or "NCHAR" or "RAW" when column.Length is > 0 =>
+                $"{dataType}({column.Length.Value})",
+            _ => dataType
+        };
     }
 
     private static void EnsureUniquePropertyNames(
@@ -248,5 +276,15 @@ public sealed class EntityConfigurationCodeGenerator : IEntityConfigurationCodeG
         }
 
         writer.WriteLine();
+    }
+
+    private static void WriteBlankLine(
+        CodeWriter writer,
+        GenerationOptions options)
+    {
+        if (!options.CompactOutput)
+        {
+            writer.WriteLine();
+        }
     }
 }

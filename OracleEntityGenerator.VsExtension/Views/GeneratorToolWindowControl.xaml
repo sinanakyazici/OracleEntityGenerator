@@ -265,6 +265,12 @@
                               Content="Generate XML comments"
                               IsChecked="{Binding GenerateXmlComments}" />
                     <CheckBox Margin="0,6,0,0"
+                              Content="Generate HasColumnType mappings"
+                              IsChecked="{Binding GenerateColumnTypeMappings}" />
+                    <CheckBox Margin="0,6,0,0"
+                              Content="Compact generated code"
+                              IsChecked="{Binding CompactOutput}" />
+                    <CheckBox Margin="0,6,0,0"
                               Content="Allow keyless entities"
                               IsChecked="{Binding GenerateKeylessEntities}" />
 

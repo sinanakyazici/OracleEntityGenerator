@@ -38,6 +38,8 @@ public sealed class GeneratorToolWindowViewModel : ObservableObject
     private bool _overwriteExistingFiles;
     private bool _nullableReferenceTypes = true;
     private bool _generateXmlComments;
+    private bool _generateColumnTypeMappings;
+    private bool _compactOutput;
     private bool _generateKeylessEntities;
     private bool _isBusy;
     private bool _isSynchronizingConnectionFields;
@@ -208,6 +210,10 @@ public sealed class GeneratorToolWindowViewModel : ObservableObject
 
     public bool GenerateXmlComments { get => _generateXmlComments; set => SetProperty(ref _generateXmlComments, value); }
 
+    public bool GenerateColumnTypeMappings { get => _generateColumnTypeMappings; set => SetProperty(ref _generateColumnTypeMappings, value); }
+
+    public bool CompactOutput { get => _compactOutput; set => SetProperty(ref _compactOutput, value); }
+
     public bool GenerateKeylessEntities { get => _generateKeylessEntities; set => SetProperty(ref _generateKeylessEntities, value); }
 
     public bool IsBusy { get => _isBusy; set => SetAndRefreshCommands(ref _isBusy, value); }
@@ -376,6 +382,8 @@ public sealed class GeneratorToolWindowViewModel : ObservableObject
             ConfigurationOutputDirectory = ConfigurationOutputDirectory,
             NullableReferenceTypes = NullableReferenceTypes,
             GenerateXmlComments = GenerateXmlComments,
+            GenerateColumnTypeMappings = GenerateColumnTypeMappings,
+            CompactOutput = CompactOutput,
             OverwriteExistingFiles = OverwriteExistingFiles,
             GenerateKeylessEntities = GenerateKeylessEntities,
             Naming = new NamingOptions
@@ -412,6 +420,8 @@ public sealed class GeneratorToolWindowViewModel : ObservableObject
             OverwriteExistingFiles = OverwriteExistingFiles,
             NullableReferenceTypes = NullableReferenceTypes,
             GenerateXmlComments = GenerateXmlComments,
+            GenerateColumnTypeMappings = GenerateColumnTypeMappings,
+            CompactOutput = CompactOutput,
             GenerateKeylessEntities = GenerateKeylessEntities,
             FileHeader = FileHeader,
             EntityUsings = EntityUsings,
@@ -437,6 +447,8 @@ public sealed class GeneratorToolWindowViewModel : ObservableObject
         OverwriteExistingFiles = profile.OverwriteExistingFiles;
         NullableReferenceTypes = profile.NullableReferenceTypes;
         GenerateXmlComments = profile.GenerateXmlComments;
+        GenerateColumnTypeMappings = profile.GenerateColumnTypeMappings;
+        CompactOutput = profile.CompactOutput;
         GenerateKeylessEntities = profile.GenerateKeylessEntities;
         FileHeader = profile.FileHeader;
         EntityUsings = profile.EntityUsings;

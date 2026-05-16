@@ -17,6 +17,10 @@ public sealed record GenerationOptions
 
     public bool GenerateXmlComments { get; init; }
 
+    public bool GenerateColumnTypeMappings { get; init; }
+
+    public bool CompactOutput { get; init; }
+
     public bool OverwriteExistingFiles { get; init; }
 
     public bool GenerateKeylessEntities { get; init; }
